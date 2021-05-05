@@ -28,6 +28,11 @@ public class BeerService {
         }
     }
 
+    private Beer verifyIfExists(Long id) throws BeerNotFoundException {
+        return beerRepository.findById(id)
+                .orElseThrow(() -> new BeerNotFoundException(id));
+    }
+
     public BeerDTO createBeer(BeerDTO beerDTO) throws BeerAlreadyRegisteredException {
         verifyIfIsAlreadyRegistered(beerDTO.getName());
         Beer beer = beerMapper.toModel(beerDTO);
@@ -46,6 +51,11 @@ public class BeerService {
                 .stream()
                 .map(beerMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public void deleteById(Long id) throws BeerNotFoundException {
+        verifyIfExists(id);
+        beerRepository.deleteById(id);
     }
 
 }
