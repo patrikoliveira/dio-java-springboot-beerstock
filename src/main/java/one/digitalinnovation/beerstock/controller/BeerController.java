@@ -25,4 +25,11 @@ public class BeerController implements BeerControllerDocs{
         return beerService.createBeer(beerDTO);
     }
 
+    @GetMapping("/{name}")
+    @Override
+    public BeerDTO findByName(String name) throws BeerNotFoundException {
+        return beerService.findByName(name);
+    }
+
+
 }
